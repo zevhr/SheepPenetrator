@@ -2,6 +2,9 @@ name: Penetrator
 main: xyz.awexxx.sheep.App
 description: Demi Command
 version: 0.1
+website: https://github.com/awexthedev/SheepPenetrator
+authors: [awex]
+depend: [WorldEdit]
 api-version: 1.18
 commands:
   demi:

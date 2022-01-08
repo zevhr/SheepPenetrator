@@ -46,6 +46,7 @@ public class App extends JavaPlugin {
 
     }
 
+    // dummy command to make sure that the command 
     public class CommandDemi implements CommandExecutor {
         @Override
         public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -57,33 +58,43 @@ public class App extends JavaPlugin {
     public class PlayerInteract implements Listener {
         @EventHandler
         public void onPlayerInteract(PlayerInteractEvent e) throws FileNotFoundException, IOException, WorldEditException  {
+            // Variable init
             Player p = e.getPlayer();
             Block clicked = e.getClickedBlock();
             World world = BukkitAdapter.adapt(Bukkit.getWorld("world"));
 
             if(e.getAction() == Action.RIGHT_CLICK_BLOCK && clicked.getType() == Material.STONE_BUTTON) {
+                // Log a button was clicked
                 System.out.println("[SheepPenetrator]" + p.getName() + " has clicked a button.");
 				
+                // Get players location
 				Location pos = p.getLocation();
 				
+                // Calculate 15 blocks behind the player
 				int new_z = pos.getBlockZ() - 15;
                 System.out.println("[SheepPenetrator] Placing penetrator @ " + new_z);
 				
-				File file = new File(Bukkit.getServer().getPluginManager().getPlugin("WorldEdit").getDataFolder().getAbsolutePath() + "/schematics/sheep2.schem");
+                // Grab the schematic by digging through WorldEdit's schematics
+				File file = new File(Bukkit.getServer().getPluginManager().getPlugin("WorldEdit").getDataFolder().getAbsolutePath() + "/schematics/sheep3.schem");
+
+                // Copy the schematic
 				ClipboardFormat format = ClipboardFormats.findByFile(file);
 				try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
 				    Clipboard clipboard = reader.read();
 				    
+                    // Paste the schematic
 					try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
 					    Operation operation = new ClipboardHolder(clipboard)
 					            .createPaste(editSession)
 					            .to(BlockVector3.at(pos.getBlockX(), pos.getBlockY(), new_z))
+                                .copyEntities(true)
 					            .build();
 					    Operations.complete(operation);
 					}
 				}
 
-                p.sendMessage(ChatColor.ITALIC + "Woosh!" + ChatColor.RESET + " Something appeared around you.. check it out ;)");
+                // Send the *anonymous* message
+                p.sendMessage(ChatColor.RED + "Woosh!" + ChatColor.RESET + " Something appeared around you.. check it out ;)");
 			}
         }
     }
