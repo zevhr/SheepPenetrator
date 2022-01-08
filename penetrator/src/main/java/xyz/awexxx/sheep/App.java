@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -61,15 +62,14 @@ public class App extends JavaPlugin {
             World world = BukkitAdapter.adapt(Bukkit.getWorld("world"));
 
             if(e.getAction() == Action.RIGHT_CLICK_BLOCK && clicked.getType() == Material.STONE_BUTTON) {
-				p.sendMessage(p.getDisplayName() + " has clicked a button.");
+                System.out.println("[SheepPenetrator]" + p.getName() + " has clicked a button.");
 				
 				Location pos = p.getLocation();
-				System.out.println(p.getName() + " is at " + pos.getBlockZ() + " Z.");
 				
 				int new_z = pos.getBlockZ() - 15;
-				p.sendMessage(String.valueOf(new_z));
+                System.out.println("[SheepPenetrator] Placing penetrator @ " + new_z);
 				
-				File file = new File(Bukkit.getServer().getPluginManager().getPlugin("WorldEdit").getDataFolder().getAbsolutePath() + "/schematics/sheep.schem");
+				File file = new File(Bukkit.getServer().getPluginManager().getPlugin("WorldEdit").getDataFolder().getAbsolutePath() + "/schematics/sheep2.schem");
 				ClipboardFormat format = ClipboardFormats.findByFile(file);
 				try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
 				    Clipboard clipboard = reader.read();
@@ -78,11 +78,12 @@ public class App extends JavaPlugin {
 					    Operation operation = new ClipboardHolder(clipboard)
 					            .createPaste(editSession)
 					            .to(BlockVector3.at(pos.getBlockX(), pos.getBlockY(), new_z))
-					            // configure here
 					            .build();
 					    Operations.complete(operation);
 					}
 				}
+
+                p.sendMessage(ChatColor.ITALIC + "Woosh!" + ChatColor.RESET + " Something appeared around you.. check it out ;)");
 			}
         }
     }
