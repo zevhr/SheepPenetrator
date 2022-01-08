@@ -1,0 +1,11 @@
+name: Penetrator
+main: xyz.awexxx.sheep.App
+description: Demi Command
+version: 0.1
+api-version: 1.18
+commands:
+  demi:
+    description: Demi Command
+    usage: /demi
+    permission: sheep.demi
+    permission-message: You do not have permission to use this command.
