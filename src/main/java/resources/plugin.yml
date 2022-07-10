@@ -1,0 +1,12 @@
+name: Penetrator
+main: dev.thatalex.sheep.App
+description: Demi Command
+version: 0.1
+website: https://github.com/zevhr/SheepPenetrator
+authors: [Alex]
+depend: [WorldEdit]
+api-version: 1.18
+commands:
+  sheep:
+    description: Demi Command
+    usage: /sheep
